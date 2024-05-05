@@ -101,24 +101,29 @@ public class HamburgerBuilder {
     public private(set) var sauces: Sauces = []
     public private(set) var toppings: Toppings = []
 
-    public func addSauces(_ sauce: Sauces) {
+    public func addSauces(_ sauce: Sauces) -> Self {
         sauces.insert(sauce)
+        return self
     }
 
-    public func removeSauces(_ sauce: Sauces) {
+    public func removeSauces(_ sauce: Sauces) -> Self {
         sauces.remove(sauce)
+        return self
     }
 
-    public func addTopping(_ topping: Toppings) {
+    public func addTopping(_ topping: Toppings) -> Self {
         toppings.insert(topping)
+        return self
     }
 
-    public func removeTopping(_ topping: Toppings) {
+    public func removeTopping(_ topping: Toppings) -> Self {
         toppings.remove(topping)
+        return self
     }
 
-    public func setMeat(_ meat: Meat) {
+    public func setMeat(_ meat: Meat) -> Self {
         self.meat = meat
+        return self
     }
 
     public func build() -> Hamburger {
@@ -168,12 +173,11 @@ print(unclePizzaVegBurger.description)
 // MARK: - My Custom Burger
 
 let mammasHamburgerBuilder = HamburgerBuilder()
-mammasHamburgerBuilder.setMeat(.tofu)
-mammasHamburgerBuilder.addSauces([.ketchup, .mayonnaise, .mustard])
-mammasHamburgerBuilder.addTopping([.cheese, .lettuce, .onion, .pickles, .tomatoes])
-
-mammasHamburgerBuilder.removeSauces(.mayonnaise)
-mammasHamburgerBuilder.removeTopping(.lettuce)
+    .setMeat(.tofu)
+    .addSauces([.ketchup, .mayonnaise, .mustard])
+    .addTopping([.cheese, .lettuce, .onion, .pickles, .tomatoes])
+    .removeSauces(.mayonnaise)
+    .removeTopping(.lettuce)
 
 let mammasBurger = mammasHamburgerBuilder.build()
 
