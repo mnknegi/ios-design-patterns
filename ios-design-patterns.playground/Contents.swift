@@ -164,3 +164,17 @@ let unclePizza = BurgerShop()
 let unclePizzaVegBurger = unclePizza.createVegetarianBurger(using: hamburgerBuilder)
 
 print(unclePizzaVegBurger.description)
+
+// MARK: - My Custom Burger
+
+let mammasHamburgerBuilder = HamburgerBuilder()
+mammasHamburgerBuilder.setMeat(.tofu)
+mammasHamburgerBuilder.addSauces([.ketchup, .mayonnaise, .mustard])
+mammasHamburgerBuilder.addTopping([.cheese, .lettuce, .onion, .pickles, .tomatoes])
+
+mammasHamburgerBuilder.removeSauces(.mayonnaise)
+mammasHamburgerBuilder.removeTopping(.lettuce)
+
+let mammasBurger = mammasHamburgerBuilder.build()
+
+print(mammasBurger.description)
