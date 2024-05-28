@@ -117,3 +117,97 @@ animal.createAnimal().makeSound()
 animal = ClientCode(factory: CatFactory())
 animal.createAnimal().makeSound()
 
+
+protocol Shape {
+    func draw()
+}
+
+final class Circle: Shape {
+    func draw() {
+        print("Draw Circle...")
+    }
+}
+
+final class Square: Shape {
+    func draw() {
+        print("Draw Square...")
+    }
+}
+
+final class Rectangle: Shape {
+    func draw() {
+        print("Draw Rectangle...")
+    }
+}
+
+protocol ShapeMaker {
+    func goemetricalShape() -> Shape
+}
+
+final class CircularShapeMaker: ShapeMaker {
+    func goemetricalShape() -> Shape {
+        Circle()
+    }
+}
+
+final class SquareShapeMaker: ShapeMaker {
+    func goemetricalShape() -> Shape {
+        Square()
+    }
+}
+
+final class RectangleShapeMaker: ShapeMaker {
+    func goemetricalShape() -> Shape {
+        Rectangle()
+    }
+}
+/*
+final class ShapeFactory {
+
+    enum Geometry {
+        case circle
+        case square
+        case rectangle
+    }
+
+    let geometry: Geometry
+
+    init(geometry: Geometry) {
+        self.geometry = geometry
+    }
+
+    func createShape() -> Shape {
+        switch geometry {
+        case .circle:
+            Circle()
+        case .square:
+            Square()
+        case .rectangle:
+            Rectangle()
+        }
+    }
+}
+
+let geometry: ShapeFactory.Geometry = .rectangle
+let shapeFactory = ShapeFactory(geometry: geometry)
+let shape = shapeFactory.createShape()
+shape.draw()
+*/
+
+final class ShapeFactory {
+
+    let factory: ShapeMaker
+
+    init(factory: ShapeMaker) {
+        self.factory = factory
+    }
+
+    func createShape() -> Shape {
+        self.factory.goemetricalShape()
+    }
+}
+
+let shapeMaker = RectangleShapeMaker()
+let shapeFactory = ShapeFactory(factory: shapeMaker)
+let shape = shapeMaker.goemetricalShape()
+shape.draw()

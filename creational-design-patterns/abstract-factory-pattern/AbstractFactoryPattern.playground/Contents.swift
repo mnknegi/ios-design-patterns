@@ -2,8 +2,8 @@
 import Foundation
 
 /**
- * Abstract Factory Pattern is another creational design pattern that provides an interface for creating families of related or dependent objects without specifying their concrete classes.
- * It is an extension of the factory pattern where the factory is itself abstracted into an interface or base class, and concrete factories are responsible for instantiating specific types of related objects.
+ * Abstract Factory Pattern is another creational design pattern that `provides an interface for creating families of related or dependent objects` without specifying their concrete classes.
+ * It is an extension of the factory pattern where the `factory is itself abstracted into an interface or base class`, and concrete factories are responsible for instantiating specific types of related objects.
  */
 
 // Abstract product A
