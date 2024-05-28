@@ -1,12 +1,15 @@
 
 import Foundation
 
+/**
 // Creatinal Design Pattern:  Builder Pattern
 /**
  * Builds an object step-by-step.
- * Director: Accepts input and coordintes with the builder. It takes builder as a parameter and returns a product.
- * Builder: It is the one which accepts step-by-step inputs and handles the creation of the product. This is the place where we setup our `setters`.
- * Product: It is the complex object to be created and it is usually a model class.
+ *
+ * It has three components:
+ * `Director:` Accepts input and coordintes with the builder. It takes builder as a parameter and returns a product.
+ * `Builder:` It is the one which accepts step-by-step inputs and handles the creation of the product. This is the place where we setup our `setters`.
+ * `Product:` It is the complex object to be created and it is usually a model class.
  */
 
 // MARK: - Product
@@ -182,3 +185,88 @@ let mammasHamburgerBuilder = HamburgerBuilder()
 let mammasBurger = mammasHamburgerBuilder.build()
 
 print(mammasBurger.description)
+*/
+
+/**
+ * A builder design pattern is a creational design pattern that allow step-by-step creation of the complex object. It is particularly useful when you need to construct an object with many configuration options, and you want to insure that the object is immutable once it is fully constructed.
+ */
+
+// Product
+struct User {
+    let name: String
+    let age: Int
+    let email: String?
+    let address: String?
+    let phoneNumber: String?
+
+    init(name: String, age: Int, email: String?, address: String?, phoneNumber: String?) {
+        self.name = name
+        self.age = age
+        self.email = email
+        self.address = address
+        self.phoneNumber = phoneNumber
+    }
+}
+
+// Builder
+final class ProfileBuilder {
+    let name: String
+    let age: Int
+    var email: String?
+    var address: String?
+    var phoneNumber: String?
+
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+
+    func setEmail(_ email: String) -> Self {
+        self.email = email
+        return self
+    }
+
+    func setAddress(_ address: String) -> Self {
+        self.address = address
+        return self
+    }
+
+    func setPhoneNumber(_ phoneNumber: String) -> Self {
+        self.phoneNumber = phoneNumber
+        return self
+    }
+
+    func build() -> User {
+        User(
+            name: self.name,
+            age: self.age,
+            email: self.email,
+            address: self.address,
+            phoneNumber: self.phoneNumber
+        )
+    }
+}
+
+
+// Director
+final class UserProfile {
+
+    func createUserProfile(using builder: ProfileBuilder) -> User {
+//        builder.setEmail("abc@gmail.com")
+//        builder.setAddress("New York, USA")
+//        builder.setPhoneNumber("123 456 789")
+        return builder.build()
+    }
+}
+
+let userProfile = UserProfile()
+let builder = ProfileBuilder(name: "abc", age: 30)
+builder.setEmail("abc@gmail.com")
+userProfile.createUserProfile(using: builder)
+
+
+let userProfileBuilder = ProfileBuilder(name: "xyz", age: 32)
+    .setEmail("xyz@gmail.com")
+    .setAddress("Melbourne, AUS")
+    .setPhoneNumber("987 654 321")
+    .build()
