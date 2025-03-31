@@ -8,11 +8,10 @@
  * The initializer method should be private which gives the guaranee that no other instance can be created outside the class's scope.
  */
 
-protocol MySingletonProviding {
-    var state: Int { get set }
-}
+/* ==================== Using @MainActor ===================== */
 
-final class MySingleton: MySingletonProviding {
+@MainActor
+final class MySingleton {
 
     static let instance = MySingleton()
 
@@ -21,7 +20,7 @@ final class MySingleton: MySingletonProviding {
     var state: Int = 0
 }
 
-var instance: MySingletonProviding = MySingleton.instance
+var instance = MySingleton.instance
 
 instance.state = 44
 
@@ -32,11 +31,8 @@ print(MySingleton.instance.state)
 // Default Payment Queue
 // let defaultPaymentQueue = SKPaymentQueue.default()
 
-protocol BaseURLProviding {
-    var baseURL: String { get }
-}
-
-final class MyAnotherSingletonClass: BaseURLProviding {
+@MainActor
+final class MyAnotherSingletonClass {
 
     private static var shared = {
         let instance = MyAnotherSingletonClass(baseURL: "www.iosmantra.com")
@@ -60,3 +56,26 @@ let instance2 = MyAnotherSingletonClass.default()
 
 print(instance1 === instance2)
 
+/* ==================== Using actor ===================== */
+
+actor MySingleton1 {
+
+    static let instance = MySingleton1()
+
+    private init() {}
+
+    private var state: Int = 0
+
+    func setState(_ newValue: Int) async {
+        state = newValue
+    }
+
+    func getState() async -> Int {
+        return state
+    }
+}
+
+Task {
+    await MySingleton1.instance.setState(44)
+    print(await MySingleton1.instance.getState())
+}
