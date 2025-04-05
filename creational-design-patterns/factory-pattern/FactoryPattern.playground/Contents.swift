@@ -1,15 +1,11 @@
 
 
 /**
- * A factory pattern is a creational design pattern that uses factory methods to deal with the problem of creating objects withour having to specify their exact class. 
- * Rather than by calling a constructor, this is done by calling a factory method to create an object.
- * Factory method can be specified either in an interface and implemented by child classes, or implemented in a base class and optionally overridden by a derived class.
- *
- * The Factory Pattern is a creational design pattern used to create objects without specifying the exact class of the object that will be created.
- * Instead, it provides a way to delegate the instantiation logic to a separate factory method or class.
- * This helps in creating objects in a more flexible and maintainable way, especially when the exact type of object to be created may vary or change over time.
- *
- * Factory Pattern is used to replace direct construction call with calls to specific factory methods.
+ The Factory Pattern is a creational design pattern used to create objects without specifying the exact class of the object that will be created.
+ Instead, it provides a way to delegate the instantiation logic to a separate factory method or class.
+ This helps in creating objects in a more flexible and maintainable way, especially when the exact type of object to be created may vary or change over time.
+
+ Factory Pattern is used to replace direct construction call with calls to specific factory methods.
  */
 
 /*
