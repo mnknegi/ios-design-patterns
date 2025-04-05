@@ -1,43 +1,75 @@
 
 import Foundation
 
-public class Person: CustomStringConvertible {
+/** Faceted Builder or Faceted Fluent Builder */
+/*
+ - A variation of standard builder pattern where the object being build is a complex and consists of multi-facets(or aspects) & each facet is build by a dedicated builder.
+ - Instead of having one big builder with dozens of methods, we break it down into smaller builders, each responsible for part of the object.
+ - Each facet handles the related group of fields.
+ */
 
-    // Address detail
-    var street: String = ""
+final class Person: CustomStringConvertible {
+
+    // Personal
+    var name: String = ""
+    var age: Int = 0
+
+    // Address
     var city: String = ""
-    var pincode: String = ""
+    var street: String = ""
 
-    // Employment detail
-    var companyName: String = ""
+    // Job
+    var company: String = ""
     var position: String = ""
-    var annualIncome: Int = 0
 
     public var description: String {
-        "I live at \(street), \(city), \(pincode). I work at \(companyName), as a \(position), in annual package of \(annualIncome)."
+        "\(name) who is \(age) years old lives in \(street) - \(city) and is working in \(company) at the position of \(position)."
     }
 }
 
 protocol PersonBuilding {
-    var lives: PersonAddressBuilder { get }
-    var works: PersonJobBuilder { get }
+    var personal: PersonPersonalBuilder { get }
+    var address: PersonAddressBuilder { get }
+    var job: PersonJobBuilder { get }
     func build() -> Person
 }
 
-public class PersonBuilder: PersonBuilding {
+class PersonBuilder: PersonBuilding {
 
     var person: Person = Person()
 
-    var lives: PersonAddressBuilder {
+    var personal: PersonPersonalBuilder {
+        PersonPersonalBuilder(person)
+    }
+
+    var address: PersonAddressBuilder {
         PersonAddressBuilder(person)
     }
 
-    var works: PersonJobBuilder {
+    var job: PersonJobBuilder {
         PersonJobBuilder(person)
     }
 
-    public func build() -> Person {
+    func build() -> Person {
         self.person
+    }
+}
+
+final class PersonPersonalBuilder: PersonBuilder {
+
+    init(_ person: Person) {
+        super.init()
+        self.person = person
+    }
+
+    func named(_ name: String) -> PersonPersonalBuilder {
+        self.person.name = name
+        return self
+    }
+
+    func aged(_ age: Int) -> PersonPersonalBuilder {
+        self.person.age = age
+        return self
     }
 }
 
@@ -48,18 +80,13 @@ final class PersonAddressBuilder: PersonBuilder {
         self.person = person
     }
 
-    public func setStreet(_ street: String) -> PersonAddressBuilder {
-        person.street = street
+    public func lives(_ city: String) -> PersonAddressBuilder {
+        self.person.city = city
         return self
     }
 
-    public func setCity(_ city: String) -> PersonAddressBuilder {
-        person.city = city
-        return self
-    }
-
-    public func setPincode(_ pincode: String) -> PersonAddressBuilder {
-        person.pincode = pincode
+    public func onStreet(_ street: String) -> PersonAddressBuilder {
+        self.person.street = street
         return self
     }
 }
@@ -71,32 +98,28 @@ final class PersonJobBuilder: PersonBuilder {
         self.person = person
     }
 
-    public func setCompanyName(_ companyName: String) -> PersonJobBuilder {
-        person.companyName = companyName
+    public func works(_ company: String) -> PersonJobBuilder {
+        self.person.company = company
         return self
     }
 
-    public func setPosition(_ position: String) -> PersonJobBuilder {
-        person.position = position
-        return self
-    }
-
-    public func setAnnualIncome(_ income: Int) -> PersonJobBuilder {
-        person.annualIncome = income
+    public func onPosition(_ position: String) -> PersonJobBuilder {
+        self.person.position = position
         return self
     }
 }
 
 let personBuilder = PersonBuilder()
 let person = personBuilder
-    .lives
-        .setStreet("Johnpur Marg")
-        .setCity("Kotdwara")
-        .setPincode("246149")
-    .works
-        .setCompanyName("Infosys Limited")
-        .setPosition("Tech Lead")
-        .setAnnualIncome(123456)
+    .personal
+        .named("John Doe")
+        .aged(32)
+    .address
+        .lives("Melbourne, AUS")
+        .onStreet("833, Collins")
+    .job
+        .works("ANZ")
+        .onPosition("iOS Engineer")
     .build()
 
 print(person.description)
