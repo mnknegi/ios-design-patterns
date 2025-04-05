@@ -195,59 +195,55 @@ print(mammasBurger.description)
 struct User {
     let name: String
     let age: Int
-    let email: String?
-    let address: String?
-    let phoneNumber: String?
-
-    init(name: String, age: Int, email: String?, address: String?, phoneNumber: String?) {
-        self.name = name
-        self.age = age
-        self.email = email
-        self.address = address
-        self.phoneNumber = phoneNumber
-    }
+    var email: String? = nil
+    var address: String? = nil
+    var phoneNumber: String? = nil
 }
 
 // Builder
 final class ProfileBuilder {
-    let name: String
-    let age: Int
-    var email: String?
-    var address: String?
-    var phoneNumber: String?
+
+    private var user: User
 
     init(name: String, age: Int) {
-        self.name = name
-        self.age = age
+        self.user = User(name: name, age: age)
     }
 
     func setEmail(_ email: String) -> Self {
-        self.email = email
+        self.user.email = email
         return self
     }
 
     func setAddress(_ address: String) -> Self {
-        self.address = address
+        self.user.address = address
         return self
     }
 
     func setPhoneNumber(_ phoneNumber: String) -> Self {
-        self.phoneNumber = phoneNumber
+        self.user.phoneNumber = phoneNumber
         return self
     }
 
     func build() -> User {
-        User(
-            name: self.name,
-            age: self.age,
-            email: self.email,
-            address: self.address,
-            phoneNumber: self.phoneNumber
-        )
+        self.user
     }
 }
 
+let basicUserProfile = ProfileBuilder(name: "John Doe", age: 32)
+let basicUser = basicUserProfile
+    .build()
+print(basicUser)
 
+let detailedUserProfile = ProfileBuilder(name: "Jane Doe", age: 28)
+let detailedUser = detailedUserProfile
+    .setEmail("jane.doe@xyz.com")
+    .setPhoneNumber("9876543210")
+    .setAddress("New York, USA")
+    .build()
+print(detailedUser)
+
+
+/* Optional - director can host multiple functions which can return customized object.
 // Director
 final class UserProfile {
 
@@ -270,3 +266,4 @@ let userProfileBuilder = ProfileBuilder(name: "xyz", age: 32)
     .setAddress("Melbourne, AUS")
     .setPhoneNumber("987 654 321")
     .build()
+ */
