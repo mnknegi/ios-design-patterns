@@ -2,8 +2,9 @@
 import Foundation
 
 /**
+ * A creational design pattern which is used to clone the existing objects without depending on their concrete classes.
  * The prototype pattern is used to instantiate a new object by copying all of the properties of an existing object, creating an independent clone.
- * This practise is particularly useful when the construction of a new object is inefficient.
+ * This practise is particularly useful when the construction of a new object is inefficient(complex or costly).
  */
 
 protocol Prototype {
