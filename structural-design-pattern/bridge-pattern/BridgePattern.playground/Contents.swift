@@ -1,5 +1,7 @@
 
 /**
+ * It is a structural design pattern that lets you split a large class or closely related classes into two sets of hierarchies - Abstraction and Implementation.
+ * These two classes can be developed independently of each other.
  * `Bridge` is a structural design pattern that is aimed to decoupled the abstraction from the implementation.
  * This is done to allow both vary independently.
  * Bridge pattern adds an additional layer of abstraction that saves the code-base from unneeded refactoring and class hierarchy explosion.
@@ -205,3 +207,108 @@ circle.draw()
  * Circle and Square are `refined abstractions` that implement the Shape protocol. They delegate the actual drawing work to the renderer.
  * The Bridge pattern is particularly useful when you need to combine different abstractions and implementations dynamically, making your code more flexible and maintainable.
  */
+
+// -----------------------------  Example 2  ----------------------------- //
+/*
+ Imagine you have a class called Geometry and two subclasses of this Geometry class is Circle and Square. Now we need to add colors to these Geometry and for that we will extend the subclasses as well as we also require to add two new classes. We now have total four subclasses - RedCircle, RedSquare, BlueCircle and BlueSquare.
+ */
+
+/* violation */
+class Geometry {
+    func draw() {
+        print("draw shape")
+    }
+}
+
+class RedCircle: Geometry {
+    override func draw() {
+        print("Draw red circle")
+    }
+}
+
+class RedSquare: Geometry {
+    override func draw() {
+        print("Draw red square")
+    }
+}
+
+class BlueCircle: Geometry {
+    override func draw() {
+        print("Draw blue circle")
+    }
+}
+
+class BlueSquare: Geometry {
+    override func draw() {
+        print("Draw blue square")
+    }
+}
+
+/* The number of subclasses will grow as a new geometry or a color is added. */
+
+/* Solution */
+/*
+ * The problem occures because we are trying to extend the shape classes into two independent dimentions: form or color.
+ * We can solve this problem by switching from `inheritence` to the `object composition`.
+ * We need to extract one of the dimention into a separate class hierarchy, so that the original class will reference an object of the new hierarchy, instead of having all of its state and behaviour within one class.
+ */
+
+// Implementation side(this implementation is different from the protocol implementation)
+protocol Color {
+    func fill() -> String
+}
+
+class Red: Color {
+    func fill() -> String {
+        "Red"
+    }
+}
+
+class Blue: Color {
+    func fill() -> String {
+        "Blue"
+    }
+}
+
+class Black: Color {
+    func fill() -> String {
+        "Black"
+    }
+}
+
+class Gray: Color {
+    func fill() -> String {
+        "Gray"
+    }
+}
+
+// Abstraction side
+class NewGeometry {
+    let color: Color
+
+    init(color: Color) {
+        self.color = color
+    }
+
+    func draw() {
+        // implemented by subclasses.
+    }
+}
+
+final class CircleGeometry: NewGeometry {
+    override func draw() {
+        print("Drawing a \(color.fill()) Circle")
+    }
+}
+
+final class SquareGeometry: NewGeometry {
+    override func draw() {
+        print("Drawing a \(color.fill()) Square")
+    }
+}
+
+var geometry: NewGeometry = CircleGeometry(color: Red())
+geometry.draw()
+
+geometry = CircleGeometry(color: Black())
+geometry.draw()
