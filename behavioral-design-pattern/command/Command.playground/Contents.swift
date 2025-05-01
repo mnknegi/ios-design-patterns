@@ -84,3 +84,17 @@ class RemoteControl {
         command?.execute()
     }
 }
+
+let light = Light()
+let fan = Fan()
+
+let lightOn = LightOnCommand(light: light)
+let fanStart = FanStartCommand(fan: fan)
+
+let remoteControl = RemoteControl()
+
+remoteControl.setCommand(lightOn)
+remoteControl.pressButton()
+
+remoteControl.setCommand(fanStart)
+remoteControl.pressButton()
