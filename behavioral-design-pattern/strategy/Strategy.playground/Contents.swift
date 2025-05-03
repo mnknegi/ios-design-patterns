@@ -54,3 +54,15 @@ class PaymentContext {
         self.strategy.pay(amount: amount)
     }
 }
+
+// Usage
+
+let ccPayment = CreditCardPayment()
+var context = PaymentContext(strategy: ccPayment)
+context.pay(amount: 100.0)
+
+context.setStrategy(PayPalPayment())
+context.pay(amount: 200.0)
+
+context.setStrategy(ApplePayment())
+context.pay(amount: 300.0)
